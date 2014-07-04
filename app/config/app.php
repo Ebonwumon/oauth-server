@@ -122,8 +122,6 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
         'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
-        'Ualbertawebservices\LDAPAuth\LDAPAuthServiceProvider'
-
 	),
 
 	/*
