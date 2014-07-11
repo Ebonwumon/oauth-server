@@ -71,6 +71,6 @@ class ClientInterfaceEloquent implements \League\OAuth2\Server\Storage\ClientInt
             return false;
         }
 
-        
+
     }
 }
