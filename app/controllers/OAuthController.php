@@ -2,111 +2,75 @@
 
 use League\OAuth2\Server\Util\Request;
 use League\OAuth2\Server\Authorization;
+use League\OAuth2\Server\Grant\AuthCode;
+use League\OAuth2\Server\Exception\ClientException;
+
+use Illuminate\Support\MessageBag;
 
 class OAuthController extends \BaseController {
 
-    /** @var \League\OAuth2\Server\Util\Request  */
-    protected $oauth_request;
+    /** @var \UAlberta\Authentication\UserRepository  */
+    protected $userRepository;
 
-    protected $authserver;
-
-    public function __construct() {
-        $this->oauth_request = new Request();
-        $this->authserver = new Authorization();
-
+    public function __construct(\UAlberta\Authentication\UserRepository $userRepository) {
+        $this->userRepository = $userRepository;
     }
 
-    public function access_token() {
-        return AuthorizationServer::performAccessTokenFlow();
+    public function login() {
+        return View::make('login/login');
+    }
+
+    public function login_auth() {
+        $attributes = array(
+            'id' => '1346889',
+            'first_name' => "Troy",
+            'last_name' => "Pavlek",
+            'ccid' => 'tpavlek'
+        );
+        $user = $this->userRepository->create($attributes);
+        Auth::login($user);
+        $params = Session::get('authorize-params');
+        unset($params['client_details']);
+        return Redirect::route('oauth.authorize', $params);
     }
 
     public function authorize() {
         $params = Session::get('authorize-params');
 
-        $params['user_id'] = Auth::user()->id;
+        $params['user_id'] = Auth::user()->getAuthIdentifier();
+        $oauth_client = new stdClass;
+        $oauth_client->name = $params['client_details']['name'];
+        $oauth_client->description = "A cool application";
+        $oauth_client->scopes = $params['scopes'];
 
-        return View::make('authorize/form', array('params' => $params));
+        return View::make('login/authorization')->with('oauth_client', $oauth_client);
     }
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		//
-	}
+    public function finalize_auth() {
+        $params = Session::get('authorize-params');
 
+        $params['user_id'] = Auth::user()->getAuthIdentifier();
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
+        if (Input::get('approve') !== null) {
+            $auth_code = AuthorizationServer::newAuthorizeRequest('user', $params['user_id'], $params);
+            Session::forget('authorize-params');
 
+            return Redirect::to(AuthorizationServer::makeRedirectWithCode($auth_code, $params));
+        }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
+        if (Input::get('deny') !== null) {
+            Session::forget('authorize-params');
 
+            return Redirect::to(AuthorizationServer::makeRedirectWithError($params));
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+        }
 
+        // TODO full return path
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+    public function access_token() {
+        return AuthorizationServer::performAccessTokenFlow();
+    }
 
 
 }

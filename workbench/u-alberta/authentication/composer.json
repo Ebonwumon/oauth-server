@@ -1,0 +1,20 @@
+{
+    "name": "u-alberta/authentication",
+    "description": "",
+    "authors": [
+        {
+            "name": "Troy Pavlek",
+            "email": "tpavlek@ualberta.ca"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "UAlberta\\Authentication": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

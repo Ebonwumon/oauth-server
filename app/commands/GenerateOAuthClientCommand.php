@@ -3,15 +3,17 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use \UAlberta\OAuthClientManagement\Repositories\OAuthClientRepositoryInterface;
 
 class GenerateOAuthClientCommand extends Command {
 
     protected $repository;
 
-    public function __construct(\OAuthClients\OAuthClientRepositoryInterface $authClientRepositoryInterface) {
+    public function __construct(OAuthClientRepositoryInterface $authClientRepositoryInterface) {
         parent::__construct();
         $this->repository = $authClientRepositoryInterface;
     }
+
 
 	/**
 	 * The console command name.
