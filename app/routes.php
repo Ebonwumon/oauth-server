@@ -1,5 +1,9 @@
 <?php
 
+Route::get('/', function() {
+    return "This is the auth server";
+});
+
 Route::group(array('prefix' => 'oauth'), function() {
     Route::get('login', array(
         'uses' => 'OAuthController@login',
