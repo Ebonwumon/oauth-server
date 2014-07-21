@@ -63,6 +63,17 @@ return array(
 			'prefix'    => '',
 		),
 
+        'oauth' => array(
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'database'  => getenv("OAUTH_DATABASE_DATABASE"),
+            'username'  => getenv("OAUTH_DATABASE_USER"),
+            'password'  => getenv("OAUTH_DATABASE_PASSWORD"),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ),
+
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
