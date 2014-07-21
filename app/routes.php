@@ -3,6 +3,9 @@
 Route::get('/', function() {
     return "This is the auth server";
 });
+Route::get('wow', function() {
+	return "this is the wow route";
+});
 
 Route::group(array('prefix' => 'oauth'), function() {
     Route::get('login', array(
