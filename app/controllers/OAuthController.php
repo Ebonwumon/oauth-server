@@ -1,11 +1,9 @@
 <?php
 
-use League\OAuth2\Server\Util\Request;
-use League\OAuth2\Server\Authorization;
-use League\OAuth2\Server\Grant\AuthCode;
-use League\OAuth2\Server\Exception\ClientException;
-
+use Depotwarehouse\Toolbox\Verification;
+use Depotwarehouse\Toolbox\Exceptions\ParameterRequiredException;
 use Illuminate\Support\MessageBag;
+
 
 class OAuthController extends \BaseController {
 
@@ -21,16 +19,29 @@ class OAuthController extends \BaseController {
     }
 
     public function login_auth() {
-        $attributes = array(
-            'id' => '1346889',
-            'first_name' => "Troy",
-            'last_name' => "Pavlek",
-            'ccid' => 'tpavlek'
-        );
-        $user = $this->userRepository->create($attributes);
-        Auth::login($user);
+        $credentials = Input::only("ccid", "password");
+
         $params = Session::get('authorize-params');
+
+        // Since we're passing data in the URL, we don't want client details cluttering our bar
         unset($params['client_details']);
+
+        try {
+            Verification::require_set($credentials, [ "ccid", "password" ]);
+        } catch (ParameterRequiredException $exception) {
+            return Redirect::route('oauth.login_form', $params)->withErrors(
+                new MessageBag([ 'errors' => $exception->getMessage() ])
+            );
+        }
+
+        if (!Auth::attempt($credentials)) {
+            return Redirect::route('oauth.login_form', $params)->withErrors(
+                new MessageBag([ 'errors' => "CCID or password is incorrect" ])
+            );
+        }
+
+
+
         return Redirect::route('oauth.authorize', $params);
     }
 

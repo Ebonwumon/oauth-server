@@ -5,6 +5,10 @@ namespace UAlberta\Authentication;
 
 use Illuminate\Auth\UserInterface;
 
+/**
+ * UAlberta\Authentication\User
+ *
+ */
 class User extends \Eloquent implements UserInterface {
 
     protected $table = "oauth_users";
@@ -17,7 +21,7 @@ class User extends \Eloquent implements UserInterface {
      */
     public function getAuthIdentifier()
     {
-        return $this->id;
+        return $this->ccid;
     }
 
     /**
@@ -27,7 +31,7 @@ class User extends \Eloquent implements UserInterface {
      */
     public function getAuthPassword()
     {
-        return $this->password;
+        return null;
     }
 
     /**

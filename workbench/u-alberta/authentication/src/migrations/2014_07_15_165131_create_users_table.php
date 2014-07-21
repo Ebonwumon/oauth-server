@@ -13,12 +13,11 @@ class CreateUsersTable extends Migration {
 	public function up()
 	{
 		Schema::create('oauth_users', function($table) {
-            $table->integer('id')->unsigned();
             $table->string('ccid');
             $table->string('first_name');
             $table->string('last_name');
 
-            $table->primary('id');
+            $table->primary('ccid');
             $table->timestamps();
         });
 	}

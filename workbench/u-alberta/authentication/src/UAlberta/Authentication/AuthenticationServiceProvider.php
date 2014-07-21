@@ -21,6 +21,16 @@ class AuthenticationServiceProvider extends ServiceProvider {
 		//
 	}
 
+    public function boot() {
+        $this->package('u-alberta/authentication');
+        $this->app->singleton('UAlberta\Authentication\UserRepository', function() {
+            return new UserRepository(new User);
+        });
+        \Auth::extend('ldap', function($app) {
+            return \App::make('UAlberta\Authentication\LDAPUserProvider');
+        });
+    }
+
 	/**
 	 * Get the services provided by the provider.
 	 *

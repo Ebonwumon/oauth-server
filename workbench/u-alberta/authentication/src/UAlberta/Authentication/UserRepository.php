@@ -3,8 +3,8 @@
 namespace UAlberta\Authentication;
 
 
+use Depotwarehouse\Toolbox\Verification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Whoops\Example\Exception;
 
 class UserRepository {
 
@@ -14,16 +14,14 @@ class UserRepository {
         $this->model = $model;
     }
 
-    public function find($id) {
-        return $this->model->findOrFail($id);
+    public function find($ccid) {
+        return $this->model->where('ccid', $ccid)->firstOrFail();
     }
 
     public function create(array $attributes = array()) {
-        if (!isset($attributes['id']) || $attributes['id'] === null) {
-            throw new Exception("Id is required"); // Todo class this exception
-        }
+        Verification::require_set($attributes, [ "ccid" ]);
         try {
-            $user = $this->find($attributes['id']);
+            $user = $this->find($attributes['ccid']);
             // TODO validation
             $user->fill($attributes);
             $user->save();

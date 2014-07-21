@@ -6,6 +6,8 @@ Login
 
 @section('content')
 
+@include('errors')
+
 {{ Form::open(array('route' => 'oauth.login_auth', 'class' => 'pure-form pure-form-aligned')) }}
     <div class="pure-control-group">
         {{ Form::label('ccid') }}
