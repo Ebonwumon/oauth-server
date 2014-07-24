@@ -40,7 +40,7 @@ class LDAPUserProvider implements UserProviderInterface {
         $port = Config::get('authentication::ldap_port');
         $conn = ldap_connect($host, $port);
         if ($conn === false) {
-            throw new LDAPConnectionException("Error connecting to the LDAP server " . $host . ":" . $port);
+            throw new LDAPConnectionException("Error connecting to the LDAP server {$host}:{$port}");
         }
         return $conn;
     }
@@ -57,6 +57,11 @@ class LDAPUserProvider implements UserProviderInterface {
         try {
             return $this->userRepository->find($identifier);
         } catch (ModelNotFoundException $exception) {
+            // We must bind to our service account to get the employeenumber
+            $service_user = Config::get("authentication::ldap_service_user");
+            $service_password = Config::get("authentication::ldap_service_password");
+            ldap_bind($this->connection, "uid={$service_user},ou=people,dc=ualberta,dc=ca", "{$service_password}");
+
             $results = ldap_search($this->connection, "ou=People,dc=ualberta,dc=ca", "(uid={$identifier})");
 
             if ($results === false) {
@@ -75,7 +80,8 @@ class LDAPUserProvider implements UserProviderInterface {
             $attributes = [
                 'first_name' => $entries[0]["givenname"][0],
                 'last_name' => $entries[0]["sn"][0],
-                'ccid' => $entries[0]["uid"][0]
+                'ccid' => $entries[0]["uid"][0],
+                'id' => $entries[0]["employeenumber"][0],
             ];
             return $this->userRepository->create($attributes);
         }

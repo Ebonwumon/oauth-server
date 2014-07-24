@@ -48,7 +48,7 @@ class OAuthController extends \BaseController {
     public function authorize() {
         $params = Session::get('authorize-params');
 
-        $params['user_id'] = Auth::user()->getAuthIdentifier();
+        $params['user_id'] = Auth::user()->id;
         $oauth_client = new stdClass;
         $oauth_client->name = $params['client_details']['name'];
         $oauth_client->description = "A cool application";
@@ -60,7 +60,7 @@ class OAuthController extends \BaseController {
     public function finalize_auth() {
         $params = Session::get('authorize-params');
 
-        $params['user_id'] = Auth::user()->getAuthIdentifier();
+        $params['user_id'] = Auth::user()->id;
 
         if (Input::get('approve') !== null) {
             $auth_code = AuthorizationServer::newAuthorizeRequest('user', $params['user_id'], $params);
