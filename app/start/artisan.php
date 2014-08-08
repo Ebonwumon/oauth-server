@@ -1,4 +1,1 @@
 <?php
-
-Artisan::resolve('GenerateOAuthClientCommand');
-

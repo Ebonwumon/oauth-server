@@ -12,7 +12,7 @@ use Illuminate\Auth\UserInterface;
 class User extends \Eloquent implements UserInterface {
 
     protected $table = "oauth_users";
-    protected $fillable = array('id', 'first_name', 'last_name', 'ccid');
+    protected $fillable = array('id', 'ccid');
 
     /**
      * Get the unique identifier for the user.

@@ -78,8 +78,6 @@ class LDAPUserProvider implements UserProviderInterface {
                 throw new LDAPSearchException("Could not find any matching results in the LDAP server");
             }
             $attributes = [
-                'first_name' => $entries[0]["givenname"][0],
-                'last_name' => $entries[0]["sn"][0],
                 'ccid' => $entries[0]["uid"][0],
                 'id' => $entries[0]["employeenumber"][0],
             ];
