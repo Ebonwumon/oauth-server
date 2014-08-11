@@ -122,7 +122,6 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-        'UAlberta\OAuthClientManagement\OAuthClientManagementServiceProvider',
         'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
         'UAlberta\Authentication\AuthenticationServiceProvider',
 	),
