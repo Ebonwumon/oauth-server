@@ -39,9 +39,6 @@ class OAuthController extends \BaseController {
                 new MessageBag([ 'errors' => "CCID or password is incorrect" ])
             );
         }
-
-
-
         return Redirect::route('oauth.authorize', $params);
     }
 
@@ -54,15 +51,20 @@ class OAuthController extends \BaseController {
         $oauth_client->description = "A cool application";
         $oauth_client->scopes = $params['scopes'];
 
+        // If we only request the basic scope, we don't need explicit authorization, so we bypass to finalizing auth.
+        if (count($oauth_client->scopes) == 1 && $oauth_client->scopes[0]["scope"] == "basic") {
+            return $this->finalize_auth(true);
+        }
+
         return View::make('login/authorization')->with('oauth_client', $oauth_client);
     }
 
-    public function finalize_auth() {
+    public function finalize_auth($bypass = false) {
         $params = Session::get('authorize-params');
 
         $params['user_id'] = Auth::user()->id;
 
-        if (Input::get('approve') !== null) {
+        if ($bypass || Input::get('approve') !== null) {
             $auth_code = AuthorizationServer::newAuthorizeRequest('user', $params['user_id'], $params);
             Session::forget('authorize-params');
 
