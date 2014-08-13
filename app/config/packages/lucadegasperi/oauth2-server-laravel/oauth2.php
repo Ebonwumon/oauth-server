@@ -66,6 +66,11 @@ return array(
             'auth_token_ttl'   => 3600,
         ),
 
+        'client_credentials' => array(
+            'class'                 => 'League\OAuth2\Server\Grant\ClientCredentials',
+            'access_token_ttl'      => 3600,
+        ),
+
         'refresh_token' => array(
             'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
             'access_token_ttl'      => 3600,
@@ -135,7 +140,7 @@ return array(
     | This is useful to allow only trusted clients to access your API differently
     |
     */
-    'limit_clients_to_grants' => false,
+    'limit_clients_to_grants' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -146,7 +151,7 @@ return array(
     | This is useful to only allow specific clients to use some scopes
     |
     */
-    'limit_clients_to_scopes' => false,
+    'limit_clients_to_scopes' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -157,7 +162,7 @@ return array(
     | This is useful to allow certain scopes to be used only with certain grant types
     |
     */
-    'limit_scopes_to_grants' => false,
+    'limit_scopes_to_grants' => true,
 
     /*
     |--------------------------------------------------------------------------
