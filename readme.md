@@ -1,25 +1,27 @@
-## Laravel PHP Framework
+##UAlberta Open Data API (OAuth-Server)
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+This server manages and controls the resources for the API.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+###Installation
+As a prerequisite to installing this server, please install the Admin Console, and perform the migrations. Once the
+migrations have been performed you will be able to install the oauth server.
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+First you must clone the repository onto your web server.
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+```
+composer update
+```
 
-## Official Documentation
+You need to create a mysql database, and then add it to the project's configuration. Create a file in the root of the
+project folder called ```.env.php``` and add the following:
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+```php
+<?php
+return [
+    'DATABASE_DATABASE' => "your-database-name",
+    'DATABASE_USER' => "your-database-username",
+    'DATABASE_PASSWORD' => "your-database-password",
+];
+```
 
-### Contributing To Laravel
-
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
-
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+**Remember:** the database name must match the database used for the Admin Server
