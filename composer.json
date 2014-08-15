@@ -7,7 +7,9 @@
 		"laravel/framework": "4.2.*",
         "lucadegasperi/oauth2-server-laravel": "1.0.x",
         "barryvdh/laravel-ide-helper": "1.*",
-        "doctrine/dbal": "~2.3"
+        "doctrine/dbal": "~2.3",
+        "u-alberta/authentication": "v1.0",
+        "depotwarehouse/toolbox": "dev-master as v0.0.1-alpha"
 	},
 	"autoload": {
 		"classmap": [
