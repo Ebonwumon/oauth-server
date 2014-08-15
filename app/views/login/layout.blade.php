@@ -13,8 +13,8 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
     <!--<link rel="stylesheet" href="/css/pure386.css"/> -->
-    <link rel="stylesheet" href="http://csl-admin.sodoge.ca/css/style.css">
-    <link rel="stylesheet" href="http://csl-admin.sodoge.ca/css/forms.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/forms.css">
 
 </head>
 <body>
