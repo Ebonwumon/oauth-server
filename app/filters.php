@@ -43,7 +43,7 @@ Route::filter('auth', function()
 		}
 		else
 		{
-			return Redirect::guest('login');
+            throw new \Exception("Error authenticating. Please place a helpdesk ticket");
 		}
 	}
 });
